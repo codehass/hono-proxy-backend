@@ -1,0 +1,24 @@
+{
+  "name": "hono-proxy-backend",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+    "zip": "zip -j lambda.zip dist/index.js",
+    "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
+    "deploy": "run-s build zip update",
+    "dev": "nodemon --watch src --ext ts --exec 'node --no-warnings=ExperimentalWarning --loader ts-node/esm' src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "@types/node-fetch": "^2.6.11",
+    "esbuild": "^0.21.4",
+    "nodemon": "^3.1.4",
+    "npm-run-all2": "^6.2.0",
+    "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.12.0",
+    "hono": "^4.4.13",
+    "node-fetch": "^3.3.2"
+  }
+}
