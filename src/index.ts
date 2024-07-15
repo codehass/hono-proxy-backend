@@ -3,10 +3,9 @@ import { cors } from 'hono/cors'
 import { Hono } from 'hono'
 import {
   getCookie,
-  getSignedCookie,
   setCookie,
-  setSignedCookie,
   deleteCookie,
+  setSignedCookie
 } from 'hono/cookie'
 
 const app = new Hono()
@@ -36,17 +35,14 @@ app.post('/login', async (c) => {
 
     const result = await response.json();
 
-    console.log(result);
-    // return c.json(result);
-
       const token = result.access_token;
 
       // Set the token in a secure cookie
-      setCookie(c, 'access_token', token, {
+      setCookie(c, 'authToken', token, {
         path: '/',
         secure: true,
         httpOnly: true,
-        maxAge: 30, // Example: 1 hour in seconds
+        maxAge: 3600, 
         sameSite: 'Strict',
       });
 
@@ -60,6 +56,23 @@ app.post('/login', async (c) => {
   }
 
 })
+
+// this path will be used to check if the cookie is valid to auto login inside the application;
+app.get("/autoLogin", (c) => {
+  const cookie = getCookie(c, 'authToken');
+  
+  // if we received no cookies then user needs to login.
+  if (!cookie || cookie === null) {
+    return c.json({ message: 'Login failed' }, 500);
+  }
+
+  return c.json({ message: 'Login successfully' }, 200);
+});
+
+app.get("/logout", (c) => {
+  deleteCookie(c, 'authToken');
+  return c.json({ message: 'Logout successfully' }, 200);
+});
 
 serve(app, (info) => {
   `Listening on http://localhost:${info.port}`;
