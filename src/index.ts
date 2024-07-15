@@ -8,6 +8,7 @@ import {
   setSignedCookie
 } from 'hono/cookie'
 
+const port = 3000;
 const app = new Hono()
 app.use('/*', cors());
 
@@ -74,6 +75,6 @@ app.get("/logout", (c) => {
   return c.json({ message: 'Logout successfully' }, 200);
 });
 
-serve(app, (info) => {
-  `Listening on http://localhost:${info.port}`;
+serve(app, () => {
+  `Listening on http://localhost:${port}`;
 })

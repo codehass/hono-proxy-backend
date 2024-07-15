@@ -6,7 +6,8 @@
     "zip": "zip -j lambda.zip dist/index.js",
     "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
     "deploy": "run-s build zip update",
-    "dev": "nodemon --watch src --ext ts --exec 'node --no-warnings=ExperimentalWarning --loader ts-node/esm' src/index.ts"
+    "dev": "nodemon --watch src --ext ts --exec 'node --no-warnings=ExperimentalWarning --loader ts-node/esm' src/index.ts",
+    "postbuild": "chmod +x bin/postbuild.sh && ./bin/postbuild.sh"
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
