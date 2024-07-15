@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "framework": { "name": "hono", "version": "^4.4.13" },
+  "framework": { "name": "hono", "version": "4.4.13" },
   "imageSettings": {
     "sizes": [
       100,
