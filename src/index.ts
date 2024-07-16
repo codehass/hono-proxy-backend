@@ -21,7 +21,7 @@ app.use('/*', cors({
   maxAge: 600,
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowHeaders: ['Content-Type', 'Authorization'],
+  allowHeaders: ['Content-Type', 'Authorization','Access-Control-Allow-Origin'],
 }));
 
 // app.use( '/*', cors({
@@ -78,14 +78,20 @@ app.post('/login', async (c) => {
 
 // Endpoint to check if the cookie is valid to auto login inside the application
 app.get("/autoLogin", async (c) => {
-  const cookie = await getCookie(c, 'authToken');
+  try {
+    const authToken = await getCookie(c, 'authToken');
 
-  // If no cookie received, the user needs to login.
-  if (!cookie || cookie === null) {
-    return c.json({ message: 'Login failed' }, 500);
+    // If no authToken cookie is found or it's empty, return 401 Unauthorized
+    if (!authToken || authToken.trim() === '') {
+      return c.json({ message: 'Login failed' }, 401);
+    }
+
+    // If authToken exists and is valid, return 200 OK
+    return c.json({ message: 'Login successfully' }, 200);
+  } catch (error) {
+    console.error('Error checking authentication:', error);
+    return c.json({ message: 'Internal Server Error' }, 500);
   }
-
-  return c.json({ message: 'Login successfully' }, 200);
 });
 
 // Endpoint to logout and delete the cookie
