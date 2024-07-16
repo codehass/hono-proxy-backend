@@ -24,15 +24,6 @@ app.use('/*', cors({
   allowHeaders: ['Content-Type', 'Authorization','Access-Control-Allow-Origin'],
 }));
 
-// app.use( '/*', cors({
-//     origin: 'http://localhost:5173',
-//     // origin: 'http://localhost:5173',
-//     maxAge: 600,
-//     credentials: true,
-//     allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     allowHeaders: ['Content-Type', 'Authorization','Access-Control-Allow-Origin'],
-//   }));
-
 app.post('/login', async (c) => {
   const { headers, username, password } = await c.req.json();
   const forwardedHeaders = new Headers();
@@ -55,18 +46,17 @@ app.post('/login', async (c) => {
 
     const result = await response.json();
 
-    const token = result.access_token;
-
-    // Set the token in a secure cookie
-    setCookie(c, 'authToken', token, {
-      path: '/',
-      secure: true,
-      httpOnly: true,
-      maxAge: 3600,
-      sameSite: 'Strict',
-    });
 
     if (response.ok) {
+      const token = result.access_token;
+      // Set the token in a secure cookie
+      setCookie(c, 'authToken', token, {
+        path: '/',
+        secure: true,
+        httpOnly: true,
+        maxAge: 3600,
+        sameSite: 'Strict',
+      });
       return c.json({ message: 'Login successful' }, 200)
     }
     return c.json({ message: 'Login failed' }, 500)
