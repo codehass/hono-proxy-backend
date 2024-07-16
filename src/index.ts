@@ -11,7 +11,7 @@ import { decode } from 'hono/jwt'
 const port = 3000;
 const app = new Hono()
 app.use( '/*', cors({
-    origin: 'https://main.d50jjx2me0kry.amplifyapp.com',
+    origin: '*',
     maxAge: 600,
     credentials: true,
   }));
