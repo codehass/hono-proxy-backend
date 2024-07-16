@@ -10,12 +10,25 @@ import { decode } from 'hono/jwt'
 
 const port = 3000;
 const app = new Hono()
-app.use( '/*', cors({
-    origin: 'http://localhost:5173',
-    // origin: 'http://localhost:5173',
-    maxAge: 600,
-    credentials: true,
-  }));
+
+const allowedOrigins = ['http://localhost:5173', 'https://main.d50jjx2me0kry.amplifyapp.com'];
+
+app.use('/*', cors({
+  origin: (origin) => allowedOrigins.includes(origin) ? origin : 'null',
+  maxAge: 600,
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// app.use( '/*', cors({
+//     origin: 'http://localhost:5173',
+//     // origin: 'http://localhost:5173',
+//     maxAge: 600,
+//     credentials: true,
+//     allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowHeaders: ['Content-Type', 'Authorization','Access-Control-Allow-Origin'],
+//   }));
 
 app.post('/login', async (c) => {
   const { headers, username, password } = await c.req.json();
