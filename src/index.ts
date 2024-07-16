@@ -9,9 +9,12 @@ import {
 import { decode } from 'hono/jwt'
 
 const port = 3000;
-const app = new Hono()
+const app = new Hono();
 
-const allowedOrigins = ['http://localhost:5173', 'https://main.d50jjx2me0kry.amplifyapp.com'];
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://main.d50jjx2me0kry.amplifyapp.com'
+];
 
 app.use('/*', cors({
   origin: (origin) => allowedOrigins.includes(origin) ? origin : 'null',
