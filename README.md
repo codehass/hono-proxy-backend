@@ -7,6 +7,7 @@
 - [Setup](#setup)
 - [Running the Project Locally](#running-the-project-locally)
 - [API Endpoints](#api-endpoints)
+- [Results](#api-endpoints-results)
 - [License](#license)
 
 ## Project Description
@@ -54,10 +55,20 @@ This repository provides endpoints to interact with an external API for authenti
 ## API Endpoints
 
 - **GET /login** - User login
-- **POST /logout** - User logout
 - **POST /autoLogin** - User autoLogin
+- **POST /logout** - User logout
 - **POST /token_info** - User token info
 
+## Results
+ - login
+![Screenshot of Backend](/src/imgs/login.png)
+ - autoLogin
+ ![Screenshot of Backend](/src/imgs/autologin.png)
+ - logout
+ ![Screenshot of Backend](/src/imgs/logout.png)
+ - token_info
+ ![Screenshot of Backend](/src/imgs/tokenInfo.png)
+ 
 ## Contributing
 
 1. Fork the repository.
